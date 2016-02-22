@@ -1,4 +1,11 @@
 
+<?php
+session_start();
+if (!array_key_exists("cart", $_SESSION)) {
+    $_SESSION["cart"] = array();
+    // Here we store product it -> count mapping
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,5 +15,4 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/main.js"></script>
   </head>
-
   <body>

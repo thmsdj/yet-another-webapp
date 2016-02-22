@@ -1,7 +1,13 @@
-<? include "header.php" ?>
+<?php
+require_once "config.php";
+include "header.php" ?>
 <a href="index.php">Back to product listing</a>
 <?php
-$conn = database_connect();
+$conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+if ($conn->connect_error)
+  die("Connection to database failed:" .
+    $conn->connect_error);
+$conn->query("set names utf8"); // Support umlaut characters
 $statement = $conn->prepare(
 "SELECT `name`, `description`, `price` FROM" .
 " `lauri_products` WHERE `id` = ?");
@@ -17,4 +23,11 @@ $row = $results->fetch_assoc();
 <p>
 <?=$row["description"];?>
 </p>
+
+<form method="post" action="cart.php">
+  <input type="hidden" name="id" value="<?=$_GET["id"];?>"/>
+  <input type="submit" value="Add to cart"/>
+</form>
+
 <? include "footer.php" ?>
+
